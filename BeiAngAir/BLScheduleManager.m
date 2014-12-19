@@ -7,11 +7,9 @@
 //
 
 #import "BLScheduleManager.h"
-#import "BLNetwork.h"
 #import "JSONKit.h"
 
 static NSString *_MAC;
-static BLNetwork *_networkAPI;
 
 @implementation BLScheduleManager
 
@@ -20,7 +18,6 @@ static BLNetwork *_networkAPI;
 	static BLScheduleManager *instance;
 	if (!instance) {
 		instance = [[BLScheduleManager alloc] init];
-		_networkAPI = [[BLNetwork alloc] init];
 	}
 	return instance;
 }
@@ -38,17 +35,16 @@ static BLNetwork *_networkAPI;
 
 - (void)onOrOff:(NSNumber *)switchStatus
 {
-	dispatch_queue_t networkQueue = dispatch_queue_create("BLAppDelegateNetworkQueue", DISPATCH_QUEUE_SERIAL);
-	dispatch_async(networkQueue, ^{
-		NSDictionary *dictionary = [NSDictionary dictionaryPassthroughWithMAC:_MAC switchStatus:switchStatus];
-		NSData *sendData = [dictionary JSONData];
-		NSData *response = [_networkAPI requestDispatch:sendData];
-		int code = [[[response objectFromJSONData] objectForKey:@"code"] intValue];
-		if (code == 0) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:[self scheduleNotificationIdentity] object:nil];
-			NSLog(@"控制机器定时%@成功", [switchStatus boolValue] ? @"开启" : @"关闭");
-		}
-	});
+//	dispatch_queue_t networkQueue = dispatch_queue_create("BLAppDelegateNetworkQueue", DISPATCH_QUEUE_SERIAL);
+//	dispatch_async(networkQueue, ^{
+//		NSDictionary *dictionary = [NSDictionary dictionaryPassthroughWithMAC:_MAC switchStatus:switchStatus];
+//		NSData *sendData = [dictionary JSONData];
+//		int code = [[[response objectFromJSONData] objectForKey:@"code"] intValue];
+//		if (code == 0) {
+//			[[NSNotificationCenter defaultCenter] postNotificationName:[self scheduleNotificationIdentity] object:nil];
+//			NSLog(@"控制机器定时%@成功", [switchStatus boolValue] ? @"开启" : @"关闭");
+//		}
+//	});
 }
 
 

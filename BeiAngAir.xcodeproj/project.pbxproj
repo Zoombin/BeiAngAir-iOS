@@ -128,7 +128,6 @@
 		BAAE38C3194089EE002C97C8 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE38B5194089EE002C97C8 /* SBJsonTokeniser.m */; };
 		BAAE38C4194089EE002C97C8 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE38B7194089EE002C97C8 /* SBJsonUTF8Stream.m */; };
 		BAAE38C5194089EE002C97C8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE38B9194089EE002C97C8 /* SBJsonWriter.m */; };
-		BAAE3EFD1949CA2A004054D2 /* libBLNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA69793E1949613B000B184F /* libBLNetwork.a */; };
 		BAB38987193DA4AD00975805 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB38969193D75EE00975805 /* MMDrawerBarButtonItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BAB38988193DA4AD00975805 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB3896B193D75EE00975805 /* MMDrawerController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BAB38989193DA4AD00975805 /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB3896D193D75EE00975805 /* MMDrawerVisualState.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -378,8 +377,6 @@
 		77F16E411977E36600564AAB /* BLZSProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLZSProgressLayer.m; sourceTree = "<group>"; };
 		77F16E441977F87800564AAB /* Weather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
 		77F16E451977F87800564AAB /* Weather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
-		BA69793D1949613B000B184F /* BLNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNetwork.h; sourceTree = "<group>"; };
-		BA69793E1949613B000B184F /* libBLNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBLNetwork.a; sourceTree = "<group>"; };
 		BA8910281945905E00C16953 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/BeiAngAir-Info.plist"; sourceTree = "<group>"; };
 		BAAE38A1194089EE002C97C8 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		BAAE38A2194089EE002C97C8 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -430,7 +427,6 @@
 				77F16E301977A2A600564AAB /* CoreTelephony.framework in Frameworks */,
 				18F183C8197978E8009599DB /* libWeiboSDK in Frameworks */,
 				18F183C4197978E8009599DB /* Frontia.framework in Frameworks */,
-				BAAE3EFD1949CA2A004054D2 /* libBLNetwork.a in Frameworks */,
 				2F40FD5E18FB93C200505B6E /* AVFoundation.framework in Frameworks */,
 				2F40FD6618FB93E800505B6E /* libiconv.dylib in Frameworks */,
 				2F40FD6418FB93DB00505B6E /* QuartzCore.framework in Frameworks */,
@@ -596,18 +592,8 @@
 				BAB38967193D75EE00975805 /* MMDrawerController */,
 				2F40FD8118FBAA6300505B6E /* iCarousel */,
 				2FAE517618F7D1340068893E /* JSONKit */,
-				2FAE511E18F7BD620068893E /* BroadLink */,
 			);
 			path = 3rd;
-			sourceTree = "<group>";
-		};
-		2FAE511E18F7BD620068893E /* BroadLink */ = {
-			isa = PBXGroup;
-			children = (
-				BA69793D1949613B000B184F /* BLNetwork.h */,
-				BA69793E1949613B000B184F /* libBLNetwork.a */,
-			);
-			path = BroadLink;
 			sourceTree = "<group>";
 		};
 		2FAE512518F7BDEB0068893E /* Controllers */ = {

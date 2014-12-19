@@ -10,31 +10,55 @@
 	<string>BeiAngAir</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>AF3B259A-28CE-4848-B378-686AF2CFD9CF</key>
-		<string>https://github.com/qq30135878/BeiAngAir-iOS.git</string>
+		<key>4EC0D487653120BB96A4AA8B6DA6BD877A35A902</key>
+		<string>https://github.com/Zoombin/BeiAngAir-iOS</string>
+		<key>DC90A656673B11D63D52767F9E8438BABC66BE30</key>
+		<string>https://github.com/bmorton/ZBarSDK</string>
+		<key>F94D734B1F1D96F29049E3FED3F8062855B63148</key>
+		<string>https://github.com/myang-git/QR-Code-Encoder-for-Objective-C</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BeiAngAir.xcodeproj/project.xcworkspace</string>
+	<string>BeiAngAir.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>AF3B259A-28CE-4848-B378-686AF2CFD9CF</key>
+		<key>4EC0D487653120BB96A4AA8B6DA6BD877A35A902</key>
 		<string>../..</string>
+		<key>DC90A656673B11D63D52767F9E8438BABC66BE30</key>
+		<string>../..Submodules/ZBarSDK</string>
+		<key>F94D734B1F1D96F29049E3FED3F8062855B63148</key>
+		<string>../..Submodules/QR-Code-Encoder-for-Objective-C</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/qq30135878/BeiAngAir-iOS.git</string>
+	<string>https://github.com/Zoombin/BeiAngAir-iOS</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>AF3B259A-28CE-4848-B378-686AF2CFD9CF</string>
+	<string>4EC0D487653120BB96A4AA8B6DA6BD877A35A902</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>AF3B259A-28CE-4848-B378-686AF2CFD9CF</string>
+			<string>4EC0D487653120BB96A4AA8B6DA6BD877A35A902</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BeiAngAir-iOS</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F94D734B1F1D96F29049E3FED3F8062855B63148</string>
+			<key>IDESourceControlWCCName</key>
+			<string>QR-Code-Encoder-for-Objective-C</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DC90A656673B11D63D52767F9E8438BABC66BE30</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ZBarSDK</string>
 		</dict>
 	</array>
 </dict>

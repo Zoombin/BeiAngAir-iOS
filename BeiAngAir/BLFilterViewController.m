@@ -11,7 +11,6 @@
 #import "BLAppDelegate.h"
 #import "iCarousel.h"
 #import "BLZSIndicatorProgress.h"
-#import "BLNetwork.h"
 #import "JSONKit.h"
 #import "BLScheduleManager.h"
 
@@ -19,7 +18,6 @@
     iCarousel *iMinPickerFrom;
     iCarousel *iHourPickerFrom;
     dispatch_queue_t networkQueue;
-    BLNetwork *networkAPI;
     BLAppDelegate *appDelegate;
     //两个选择的
     BLZSIndicatorProgress *countDownHourIndicator;
@@ -48,7 +46,6 @@
 	self.view.backgroundColor = [UIColor whiteColor];
 	// Do any additional setup after loading the view.
     networkQueue = dispatch_queue_create("BLFilterViewController", DISPATCH_QUEUE_SERIAL);
-    networkAPI = [[BLNetwork alloc] init];
     appDelegate = (BLAppDelegate *)[[UIApplication sharedApplication] delegate];
     _tmpTimerCount = 0;
     

@@ -8,7 +8,6 @@
 
 #import "BLSmartConfigViewController.h"
 #import "GlobalDefine.h"
-#import "BLNetwork.h"
 #import "JSONKit.h"
 #import "EASYLINK.h"
 #import "BLAPIClient.h"
