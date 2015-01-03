@@ -30,7 +30,7 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	static BLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSString *baseURLString = @"http://121.207.243.132/v1/";
+		NSString *baseURLString = @"http://p.smart.99.com/v1/";
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[BLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
