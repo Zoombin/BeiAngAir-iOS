@@ -279,7 +279,9 @@ NSTimeInterval const scheduleRefreshInterval = 4;
 - (void)refreshInsideAirQuality {
 	NSMutableString *insideAirQuality = [NSMutableString stringWithString:[_device displayName]];
 	[insideAirQuality appendFormat:@"\n%@", [_device displayPM25]];
-	[insideAirQuality appendFormat:@"\n%@", [_device displayTVOC]];
+	if ([_device hasTVOC]) {
+		[insideAirQuality appendFormat:@"\n%@", [_device displayTVOC]];
+	}
 	_airQualityLabel.text = insideAirQuality;
 }
 
@@ -382,7 +384,7 @@ NSTimeInterval const scheduleRefreshInterval = 4;
 	[slider setBackgroundColor:[UIColor clearColor]];
 	[slider setMaximumTrackTintColor:[UIColor grayColor]];
 	[slider setMinimumTrackTintColor:RGB(0x13, 0xb3, 0x5c)];
-	[slider setMaximumValue:3.0f];
+	[slider setMaximumValue:[_device windSpeedStepperNumber]];
 	[slider setMinimumValue:1.0f];
 	[slider setValue:[_device windSpeed]];
 	image = [UIImage imageNamed:@"seekbar_btn"];
@@ -401,24 +403,17 @@ NSTimeInterval const scheduleRefreshInterval = 4;
 	animation.subtype = kCATransitionFromTop;   //动画方向
 	[view.layer addAnimation:animation forKey:@"animation"];
 	
-	//添加说明性文字
-	label = [[UILabel alloc] initWithFrame:CGRectMake(40, slider.frame.origin.y + 85, 70, 30)];
-	[label setText:[NSString stringWithFormat:@"1%@",NSLocalizedString(@"File", nil)]];
-	[label setBackgroundColor:[UIColor clearColor]];
-	[label setFont:[UIFont systemFontOfSize:13.f]];
-	[view addSubview:label];
-	//1档
-	label = [[UILabel alloc] initWithFrame:CGRectMake(150, label.frame.origin.y, 70, 30)];
-	[label setText:[NSString stringWithFormat:@"2%@",NSLocalizedString(@"File", nil)]];
-	[label setBackgroundColor:[UIColor clearColor]];
-	[label setFont:[UIFont systemFontOfSize:13.f]];
-	[view addSubview:label];
-	//2档
-	label = [[UILabel alloc] initWithFrame:CGRectMake(270, label.frame.origin.y, 70, 30)];
-	[label setText:[NSString stringWithFormat:@"3%@",NSLocalizedString(@"File", nil)]];
-	[label setBackgroundColor:[UIColor clearColor]];
-	[label setFont:[UIFont systemFontOfSize:13.f]];
-	[view addSubview:label];
+	CGFloat gap = 110;
+	if ([_device windSpeedStepperNumber] == 5) {
+		gap = 55;
+	}
+	for (int i = 0; i < [_device windSpeedStepperNumber]; i++) {
+		label = [[UILabel alloc] initWithFrame:CGRectMake(40 + i * gap, slider.frame.origin.y + 85, 70, 30)];
+		[label setText:[NSString stringWithFormat:@"%@%@", @(i+1), NSLocalizedString(@"档", nil)]];
+		[label setBackgroundColor:[UIColor clearColor]];
+		[label setFont:[UIFont systemFontOfSize:13.f]];
+		[view addSubview:label];
+	}
 	[_backView addSubview:view];
 }
 
@@ -527,6 +522,7 @@ NSTimeInterval const scheduleRefreshInterval = 4;
     CGFloat percentage = pt.x / s.bounds.size.width;
     CGFloat delta = percentage * (s.maximumValue - s.minimumValue);
     CGFloat value = s.minimumValue + delta + 0.5f;
+	NSLog(@"value: %@", @(value));
     [s setValue:(int)value animated:YES];
     [self setWindSpeed:(int)value];
 }

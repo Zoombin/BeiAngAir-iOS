@@ -16,7 +16,8 @@ NSInteger const sleepFlagIndex = 7;
 NSInteger const childLockFlagIndex = 8;
 NSInteger const hoursFlagIndex = 9;
 NSInteger const minutesFlagIndex = 10;
-NSInteger const PM25FlagIndex = 13;
+NSInteger const PM25FlagIndexHigh = 12;
+NSInteger const PM25FlagIndexLow = 13;
 NSInteger const TVOCFlagIndex = 18;
 
 @implementation ELDevice
@@ -167,6 +168,37 @@ NSInteger const TVOCFlagIndex = 18;
 	return [self flagAtIndex:childLockFlagIndex] > 0;
 }
 
+- (BOOL)is280E {
+	if ([[self deviceName].uppercaseString isEqualToString:@"280E"]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)isJY300 {
+	if ([[self deviceName].uppercaseString isEqualToString:@"JY300"]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)isJY500 {
+	if ([[self deviceName].uppercaseString isEqualToString:@"JY500"]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)hasTVOC {
+	if ([self is280E]) return NO;
+	return YES;
+}
+
+- (NSInteger)windSpeedStepperNumber {
+	if ([self isJY500]) return 5;
+	return 3;
+}
+
 - (NSInteger)windSpeed {
 	return [self flagAtIndex:windSpeedFlagIndex];
 }
@@ -174,16 +206,32 @@ NSInteger const TVOCFlagIndex = 18;
 - (NSString *)displayTVOC {
 	uint8_t flag = [self flagAtIndex:TVOCFlagIndex];
 	NSString *quanlity = NSLocalizedString(@"差", nil);
-	if (flag == 1) {
-		quanlity = NSLocalizedString(@"优", nil);
-	} else if (flag == 2) {
-		quanlity = NSLocalizedString(@"良", nil);
+	
+	if ([self isJY500]) {
+		if (flag == 1) {
+			quanlity = NSLocalizedString(@"优", nil);
+		} else if (flag == 2) {
+			quanlity = NSLocalizedString(@"良", nil);
+		} else if (flag == 3) {
+			quanlity = NSLocalizedString(@"中", nil);
+		}
+	} else {
+		if (flag == 1) {
+			quanlity = NSLocalizedString(@"优", nil);
+		} else if (flag == 2) {
+			quanlity = NSLocalizedString(@"良", nil);
+		}
 	}
 	return [NSString stringWithFormat:@"TVOC %@", quanlity];
 }
 
 - (NSString *)displayPM25 {
-	uint8_t flag = [self flagAtIndex:PM25FlagIndex];//12, 13
+	uint8_t	high = [self flagAtIndex:PM25FlagIndexHigh];//12
+	uint8_t low = [self flagAtIndex:PM25FlagIndexLow];//13
+	NSInteger flag = high * 256 + low;
+	if ([self is280E]) {
+		flag = (flag / 30.0f) + 8;
+	}
 	NSString *quanlity = NSLocalizedString(@"优", nil);
 	if (flag >= 200) {
 		quanlity = NSLocalizedString(@"严重", nil);

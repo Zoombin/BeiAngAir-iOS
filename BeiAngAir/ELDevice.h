@@ -27,6 +27,11 @@
 - (BOOL)isAutoOn;
 - (BOOL)isSleepOn;
 - (BOOL)isChildLockOn;
+- (BOOL)is280E;
+- (BOOL)isJY300;
+- (BOOL)isJY500;
+- (BOOL)hasTVOC;
+- (NSInteger)windSpeedStepperNumber;
 - (NSInteger)windSpeed;
 - (NSString *)displayTVOC;
 - (NSString *)displayPM25;

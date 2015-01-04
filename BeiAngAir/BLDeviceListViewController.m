@@ -87,7 +87,6 @@
 		[self.refreshControl endRefreshing];
 		if (!error) {
 			_devices = [ELDevice multiWithAttributesArray:multiAttributes];
-			NSLog(@"devices: %@", _devices);
 			[self.tableView reloadData];
 		} else {
 			NSLog(@"error: %@", error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER]);
