@@ -108,18 +108,50 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	NSError *error = nil;
 	NSDictionary *result = [responseObject valueForKeyPath:@"result"];
 	NSInteger code = [result[@"code"] integerValue];
+	NSDictionary *errorCodes = @{@(5000) : @"发送短信失败",
+//								 @(5001) : @"短信已发送",
+								 @(5002) : @"手机号码格式不对",
+								 @(5003) : @"token错误",
+								 @(5004) : @"用户名错误",
+								 @(5005) : @"密码错误",
+								 @(5006) : @"用户名不存在",
+								 @(1002) : @"参数不足",
+								 @(5007) : @"用户未登录",
+								 @(5008) : @"请求有误",
+								 @(5009) : @"系统错误",
+								 @(5010) : @"未绑定手机",
+								 @(5011) : @"密码格式错误",
+								 @(5012) : @"手机与账号不符合",
+								 @(5013) : @"密码相同，无需修改",
+								 @(5014) : @"手机号码已经绑定",
+								 @(5015) : @"验证码未发出",
+								 @(5016) : @"验证码不对",
+								 @(5017) : @"用户已经登入",
+								 @(5018) : @"用户名格式不对",
+								 @(5019) : @"方法未实现",
+								 @(5020) : @"用户名已经存在",
+								 @(5021) : @"设备不存在",
+								 @(5022) : @"第三方接口未开放",
+								 @(5023) : @"第三方登入失败",
+								 @(6000) : @"控制超时",
+								 @(6002) : @"token过期",
+								 @(6001) : @"设备不在线",
+								 @(611) : @"该设备已和其它账号绑定",
+								 @(2102) : @"已绑定过该设备"
+								 };
+	
+	
 	if (code != 0 && code != 200) {
 		NSString *message = result[@"message"];
 		if (!message || [message isEqual:[NSNull null]]) {
 			message = NSLocalizedString(@"未知错误", nil);
 		}
-		if (code == 611) {
-			message = NSLocalizedString(@"该设备已和其它账号绑定", nil);
+		
+		NSString *errorMessage = errorCodes[@(code)];
+		if (errorMessage) {
+			message = errorMessage;
 		}
 		
-		if (code == 2102) {
-			message = NSLocalizedString(@"已绑定过该设备", nil);
-		}
 		error = [NSError errorWithDomain:BL_ERROR_DOMAIN code:1 userInfo:@{BL_ERROR_MESSAGE_IDENTIFIER : message}];
 	}
 	return error;
@@ -221,7 +253,9 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 		NSDictionary *result = [responseObject valueForKeyPath:@"result"];
 		NSDictionary *attributes = nil;
 		if (!error) {
-			attributes = result[@"data"][0];
+			if (result[@"data"] && [result[@"data"] count]) {
+				attributes = result[@"data"][0];
+			}
 		}
 		if (block) block(attributes, error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -235,9 +269,7 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	parameters[@"params"] = @{@"ndevice_id" : deviceID, @"ndevice_sn" : @"", @"command" : value};
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
-	NSLog(@"json: %@", JSONString);
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		NSDictionary *result = [responseObject valueForKeyPath:@"result"];
 		NSString *value = nil;
@@ -257,7 +289,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		BOOL newDeviceFound = NO;
 		NSError *error = [self handleResponse:responseObject];
 		NSDictionary *result = [responseObject valueForKeyPath:@"result"];
@@ -285,7 +316,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (block) block(error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -301,7 +331,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (block) block(error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -322,7 +351,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	NSLog(@"auth: %@", JSONString);
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (block) block(error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -340,7 +368,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		BOOL validForReset = NO;
 		if (!error) {
@@ -371,7 +398,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"homer" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (block) block(error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -385,9 +411,7 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	parameters[@"params"] = @{};
 	
 	NSString *JSONString = [self dataTOJSONString:parameters];
-	NSLog(@"logout: %@", JSONString);
 	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"logout response object: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (!error) {
 			[self logout];
