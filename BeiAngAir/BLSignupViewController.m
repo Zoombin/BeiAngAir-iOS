@@ -15,7 +15,10 @@
 @property (readwrite) UITextField *accountTextField;
 @property (readwrite) UITextField *passwordTextField;
 @property (readwrite) UITextField *passwordConfirmTextField;
+@property (readwrite) UITextField *codeTextField;
+@property (readwrite) UIButton *getCodeButton;
 @property (readwrite) UIButton *signupButton;
+@property (readwrite) BOOL isMobilePhoneNumber;
 
 @end
 
@@ -36,6 +39,7 @@
 	_accountTextField.placeholder = @"请输入手机号/用户名";
 	_accountTextField.backgroundColor = [UIColor whiteColor];
 	_accountTextField.layer.cornerRadius = 4;
+	[_accountTextField addTarget:self action:@selector(accountTextFieldChanged:) forControlEvents:UIControlEventEditingChanged];
 	[self.view addSubview:_accountTextField];
 	
 	frame.origin.y = CGRectGetMaxY(_accountTextField.frame) + edgeInsets.bottom;
@@ -55,6 +59,29 @@
 	[self.view addSubview:_passwordConfirmTextField];
 	
 	frame.origin.y = CGRectGetMaxY(_passwordConfirmTextField.frame) + edgeInsets.bottom;
+	_codeTextField = [[UITextField alloc] initWithFrame:frame];
+	_codeTextField.placeholder = @"请输入验证码";
+	_codeTextField.backgroundColor = [UIColor whiteColor];
+	_codeTextField.layer.cornerRadius = 4;
+	_codeTextField.hidden = YES;
+	[self.view addSubview:_codeTextField];
+	
+	CGFloat buttonWidth = 100;
+	frame.origin.x = CGRectGetMaxX(_codeTextField.frame) - buttonWidth;
+	frame.size.width = buttonWidth;
+	_getCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_getCodeButton.frame = frame;
+	[_getCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+	[_getCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	_getCodeButton.backgroundColor = [UIColor grayColor];
+	_getCodeButton.showsTouchWhenHighlighted = YES;
+	[_getCodeButton addTarget:self action:@selector(getCode) forControlEvents:UIControlEventTouchUpInside];
+	_getCodeButton.hidden = YES;
+	[self.view addSubview:_getCodeButton];
+	
+	frame.origin.x = CGRectGetMinX(_codeTextField.frame);
+	frame.origin.y = CGRectGetMaxY(_codeTextField.frame) + edgeInsets.bottom;
+	frame.size.width = CGRectGetWidth(_codeTextField.frame);
 	_signupButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	_signupButton.frame = frame;
 	_signupButton.layer.cornerRadius = 6;
@@ -69,6 +96,24 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (BOOL)phoneNumberSimpleValidation:(NSString *)string {
+	NSString *regex = @"^[0-9]{11}$";
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+	return [predicate evaluateWithObject:string];
+}
+
+- (void)getCode {
+	NSLog(@"get code");
+}
+
+- (void)accountTextFieldChanged:(UITextField *)textField {
+	if (_accountTextField == textField) {
+		_isMobilePhoneNumber = [self phoneNumberSimpleValidation:_accountTextField.text];
+		_codeTextField.hidden = !_isMobilePhoneNumber;
+		_getCodeButton.hidden = !_isMobilePhoneNumber;
+	}
 }
 
 - (void)signup {
