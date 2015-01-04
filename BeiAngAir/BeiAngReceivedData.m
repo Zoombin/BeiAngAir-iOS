@@ -58,8 +58,7 @@
 	}
 }
 
-- (NSString *)airQualityDisplayString
-{
+- (NSString *)airQualityDisplayString {
 	//这个也是参照贝昂安卓的公式
 	if ([self airQuality].floatValue >= 200) {
 		return NSLocalizedString(@"严重", nil);

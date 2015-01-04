@@ -105,7 +105,14 @@
 }
 
 - (void)getCode {
-	NSLog(@"get code");
+	[self displayHUD:@"获取验证码..."];
+	[[BLAPIClient shared] authCodeWithPhone:_accountTextField.text withBlock:^(NSError *error) {
+		if (!error) {
+			[self hideHUD:YES];
+		} else {
+			[self displayHUDTitle:nil message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER]];
+		}
+	}];
 }
 
 - (void)accountTextFieldChanged:(UITextField *)textField {
@@ -117,6 +124,13 @@
 }
 
 - (void)signup {
+	if (_isMobilePhoneNumber) {
+		if (!_codeTextField.text.length) {
+			[self displayHUDTitle:nil message:@"请输入验证码" duration:1];
+			return;
+		}
+	}
+	
 	if (!_accountTextField.text.length) {
 		[self displayHUDTitle:nil message:@"账号不能为空" duration:1];
 		return;
@@ -138,17 +152,32 @@
 	}
 	
 	[self displayHUD:@"加载中..."];
-	[[BLAPIClient shared] registerAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSError *error) {
-		[self hideHUD:YES];
+	if (_isMobilePhoneNumber) {
+		[[BLAPIClient shared] registerPhone:_accountTextField.text password:_passwordTextField.text code:_codeTextField.text withBlock:^(NSError *error) {
+			if (!error) {
+				[self signin];
+			} else {
+				[self displayHUDTitle:@"错误" message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:2];
+			}
+		}];
+	} else {
+		[[BLAPIClient shared] registerAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSError *error) {
+			if (!error) {
+				[self signin];
+			} else {
+				[self displayHUDTitle:@"错误" message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:2];
+			}
+		}];
+	}
+}
+
+- (void)signin {
+	[self displayHUD:@"登录中..."];
+	[[BLAPIClient shared] signinAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSError *error) {
 		if (!error) {
-			[self displayHUD:@"登录中..."];
-			[[BLAPIClient shared] signinAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSError *error) {
-				[self hideHUD:YES];
-				if (!error) {
-					BLDeviceListViewController *deviceListViewController = [[BLDeviceListViewController alloc] initWithStyle:UITableViewStyleGrouped];
-					[self.navigationController pushViewController:deviceListViewController animated:YES];
-				}
-			}];
+			[self hideHUD:YES];
+			BLDeviceListViewController *deviceListViewController = [[BLDeviceListViewController alloc] initWithStyle:UITableViewStyleGrouped];
+			[self.navigationController pushViewController:deviceListViewController animated:YES];
 		} else {
 			[self displayHUDTitle:@"错误" message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:2];
 		}

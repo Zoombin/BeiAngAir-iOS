@@ -202,6 +202,39 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	}];
 }
 
+- (void)registerPhone:(NSString *)phone password:(NSString *)password code:(NSString *)code withBlock:(void (^)(NSError *))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
+	parameters[@"method"] = @"phoneRegister";
+	CocoaSecurityResult *md5 = [CocoaSecurity md5:password];
+	parameters[@"params"] = @{@"password" : md5.hexLower,
+							  @"phone" : phone,
+							  @"code" : code,
+							  @"info" : @""
+							  };
+	NSString *JSONString = [self dataTOJSONString:parameters];
+	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"responseObject: %@", responseObject);
+		NSError *error = [self handleResponse:responseObject];
+		if (block) block(error);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)authCodeWithPhone:(NSString *)phone withBlock:(void (^)(NSError *error))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
+	parameters[@"method"] = @"authCode";
+	parameters[@"params"] = @{@"phone" : phone
+							  };
+	NSString *JSONString = [self dataTOJSONString:parameters];
+	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSError *error = [self handleResponse:responseObject];
+		if (block) block(error);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
 - (void)signinAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block {
 	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
 	parameters[@"method"] = @"login";

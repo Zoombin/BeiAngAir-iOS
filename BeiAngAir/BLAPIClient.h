@@ -18,7 +18,9 @@ extern NSString * const BL_ERROR_MESSAGE_IDENTIFIER;
 - (NSString *)username;
 - (NSString *)userID;
 - (void)registerAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block;
+- (void)registerPhone:(NSString *)phone password:(NSString *)password code:(NSString *)code withBlock:(void (^)(NSError *))block;
 
+- (void)authCodeWithPhone:(NSString *)phone withBlock:(void (^)(NSError *error))block;
 - (void)signinAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block;
 
 - (void)getBindWithBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
