@@ -7,6 +7,7 @@
 //
 
 #import "BLSigninViewController.h"
+#import "BLForgotPasswordViewController.h"
 #import "BLSignupViewController.h"
 #import "BLAPIClient.h"
 #import "BLDeviceListViewController.h"
@@ -18,6 +19,7 @@
 @property (readwrite) UIButton *signinButton;
 @property (readwrite) UIButton *cancelButton;
 @property (readwrite) UILabel *signupLabel;
+@property (readwrite) UILabel *forgotPasswordLabel;
 
 @end
 
@@ -84,9 +86,22 @@
 	
 	frame.origin.x = edgeInsets.left;
 	frame.origin.y = CGRectGetMaxY(_cancelButton.frame) + edgeInsets.bottom;
-	frame.size.width = self.view.frame.size.width - edgeInsets.left - edgeInsets.right;
+	frame.size.width = (self.view.frame.size.width - edgeInsets.left - edgeInsets.right) / 2;
+	_forgotPasswordLabel = [[UILabel alloc] initWithFrame:frame];
+	_forgotPasswordLabel.text = @"忘记密码";
+	_forgotPasswordLabel.textAlignment = NSTextAlignmentLeft;
+	_forgotPasswordLabel.userInteractionEnabled = YES;
+	_forgotPasswordLabel.font = [UIFont systemFontOfSize:15];
+	[self.view addSubview:_forgotPasswordLabel];
+	UITapGestureRecognizer *forgotPasswordTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgotPassword)];
+	[_forgotPasswordLabel addGestureRecognizer:forgotPasswordTap];
+	
+	frame.origin.x = CGRectGetMaxX(_forgotPasswordLabel.frame);
+	frame.origin.y = CGRectGetMaxY(_cancelButton.frame) + edgeInsets.bottom;
+	frame.size.width = (self.view.frame.size.width - edgeInsets.left - edgeInsets.right) / 2;
 	_signupLabel = [[UILabel alloc] initWithFrame:frame];
 	_signupLabel.text = @"没有账号?点击注册";
+	_signupLabel.font = _forgotPasswordLabel.font;
 	_signupLabel.textAlignment = NSTextAlignmentRight;
 	_signupLabel.userInteractionEnabled = YES;
 	UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(signup)];
@@ -133,6 +148,11 @@
 
 - (void)cancel {
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)forgotPassword {
+	BLForgotPasswordViewController *forgotPasswordViewController = [[BLForgotPasswordViewController alloc] initWithNibName:nil bundle:nil];
+	[self.navigationController pushViewController:forgotPasswordViewController animated:YES];
 }
 
 - (void)signup {

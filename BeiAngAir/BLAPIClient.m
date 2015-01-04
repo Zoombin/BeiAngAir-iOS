@@ -42,6 +42,12 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	return _shared;
 }
 
+- (BOOL)phoneNumberSimpleValidation:(NSString *)string {
+	NSString *regex = @"^[0-9]{11}$";
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+	return [predicate evaluateWithObject:string];
+}
+
 - (NSString	*)appVersion {
 	NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
 	return [infoDictionary objectForKey:@"CFBundleShortVersionString"];
@@ -250,6 +256,27 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 			[self saveUserID:result[@"data"][@"user_id"]];
 			[self saveUsername:account];
 			[self saveToken:result[@"data"][@"token"]];
+		}
+		if (block) block(error);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)resetPassword:(NSString *)password phone:(NSString *)phone code:(NSString *)code withBlock:(void (^)(NSError *error))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
+	parameters[@"method"] = @"updatePassword2";
+	CocoaSecurityResult *md5 = [CocoaSecurity md5:password];
+	parameters[@"params"] = @{@"newpasswd" : md5.hexLower,
+							  @"phone" : phone,
+							  @"code" : code
+							  };
+	NSString *JSONString = [self dataTOJSONString:parameters];
+	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"responseObject: %@", responseObject);
+		NSError *error = [self handleResponse:responseObject];
+		if (!error) {
+			
 		}
 		if (block) block(error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {

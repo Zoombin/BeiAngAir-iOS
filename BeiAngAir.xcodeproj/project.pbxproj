@@ -34,6 +34,7 @@
 		7700C70F196E69FA0001561F /* BLTimerInfomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7700C70E196E69FA0001561F /* BLTimerInfomation.m */; };
 		7700C715196E6A530001561F /* BeiAngReceivedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7700C714196E6A530001561F /* BeiAngReceivedData.m */; };
 		7700C720196E87F90001561F /* NSString+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 7700C71F196E87F90001561F /* NSString+BeiAng.m */; };
+		770FA8611A593CCF005D1B7F /* BLForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */; };
 		771F07EB196F897600B41955 /* UIImage+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07EA196F897600B41955 /* UIImage+BeiAng.m */; };
 		771F07EE196F975300B41955 /* UIColor+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07ED196F975300B41955 /* UIColor+BeiAng.m */; };
 		771F07F5196FABCF00B41955 /* Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07F4196FABCF00B41955 /* Wifi.m */; };
@@ -194,6 +195,8 @@
 		7700C714196E6A530001561F /* BeiAngReceivedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeiAngReceivedData.m; sourceTree = "<group>"; };
 		7700C71E196E87F90001561F /* NSString+BeiAng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BeiAng.h"; sourceTree = "<group>"; };
 		7700C71F196E87F90001561F /* NSString+BeiAng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BeiAng.m"; sourceTree = "<group>"; };
+		770FA85F1A593CCF005D1B7F /* BLForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLForgotPasswordViewController.h; path = BeiAngAir/BLForgotPasswordViewController.h; sourceTree = SOURCE_ROOT; };
+		770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLForgotPasswordViewController.m; path = BeiAngAir/BLForgotPasswordViewController.m; sourceTree = SOURCE_ROOT; };
 		771F07E9196F897600B41955 /* UIImage+BeiAng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BeiAng.h"; sourceTree = "<group>"; };
 		771F07EA196F897600B41955 /* UIImage+BeiAng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BeiAng.m"; sourceTree = "<group>"; };
 		771F07EC196F975300B41955 /* UIColor+BeiAng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BeiAng.h"; sourceTree = "<group>"; };
@@ -599,6 +602,8 @@
 		2FAE512518F7BDEB0068893E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				770FA85F1A593CCF005D1B7F /* BLForgotPasswordViewController.h */,
+				770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */,
 				775E219B1A35A88D00CB4ACB /* BLDeviceQRCodeViewController.h */,
 				775E21AE1A35DF3600CB4ACB /* BLDeviceQRCodeViewController.mm */,
 				775E21981A35A2D800CB4ACB /* BLQRCodeScanViewController.h */,
@@ -1140,6 +1145,7 @@
 				7700C715196E6A530001561F /* BeiAngReceivedData.m in Sources */,
 				777500981A22E2E7008C566D /* AFHTTPSessionManager.m in Sources */,
 				775EB22D1973DA5B00E4A0AB /* BLDeviceControlViewController.m in Sources */,
+				770FA8611A593CCF005D1B7F /* BLForgotPasswordViewController.m in Sources */,
 				77D9E3291980981F004AC675 /* UIViewController+HUD.m in Sources */,
 				7775009E1A22E2E7008C566D /* AFURLSessionManager.m in Sources */,
 				777500591A22D487008C566D /* Reachability.m in Sources */,

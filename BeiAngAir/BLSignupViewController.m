@@ -98,12 +98,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)phoneNumberSimpleValidation:(NSString *)string {
-	NSString *regex = @"^[0-9]{11}$";
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-	return [predicate evaluateWithObject:string];
-}
-
 - (void)getCode {
 	[self displayHUD:@"获取验证码..."];
 	[[BLAPIClient shared] authCodeWithPhone:_accountTextField.text withBlock:^(NSError *error) {
@@ -117,7 +111,7 @@
 
 - (void)accountTextFieldChanged:(UITextField *)textField {
 	if (_accountTextField == textField) {
-		_isMobilePhoneNumber = [self phoneNumberSimpleValidation:_accountTextField.text];
+		_isMobilePhoneNumber = [[BLAPIClient shared] phoneNumberSimpleValidation:_accountTextField.text];
 		_codeTextField.hidden = !_isMobilePhoneNumber;
 		_getCodeButton.hidden = !_isMobilePhoneNumber;
 	}

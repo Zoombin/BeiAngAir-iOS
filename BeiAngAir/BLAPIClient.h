@@ -13,6 +13,7 @@ extern NSString * const BL_ERROR_MESSAGE_IDENTIFIER;
 @interface BLAPIClient : AFHTTPRequestOperationManager
 
 + (instancetype)shared;
+- (BOOL)phoneNumberSimpleValidation:(NSString *)string;
 - (NSString	*)appVersion;
 - (BOOL)isSessionValid;
 - (NSString *)username;
@@ -22,6 +23,7 @@ extern NSString * const BL_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)authCodeWithPhone:(NSString *)phone withBlock:(void (^)(NSError *error))block;
 - (void)signinAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block;
+- (void)resetPassword:(NSString *)password phone:(NSString *)phone code:(NSString *)code withBlock:(void (^)(NSError *error))block;
 
 - (void)getBindWithBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 - (void)getDeviceStatus:(NSString *)deviceID withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
