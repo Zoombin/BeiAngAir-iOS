@@ -441,13 +441,13 @@ NSTimeInterval const scheduleRefreshInterval = 4;
     //如果儿童锁按钮点击，那么提示信息
     if(_childLockButton.selected) {
         //提示信息
-		[self displayHUDTitle:NSLocalizedString(@"childMessage", nil) message:nil duration:1];
+		[self displayHUDTitle:NSLocalizedString(@"childMessage", nil) message:nil duration:3];
         return;
     }
     //如果自动按钮点击，那么提示信息
    else if(_handOrAutoButton.selected) {
         //提示信息
-	   [self displayHUDTitle:NSLocalizedString(@"autoMessage", nil) message:nil duration:1];
+	   [self displayHUDTitle:NSLocalizedString(@"autoMessage", nil) message:nil duration:3];
         return;
     } else {
           //弹出选择框
@@ -471,12 +471,12 @@ NSTimeInterval const scheduleRefreshInterval = 4;
 - (void)allButtonClicked:(UIButton *)button
 {
 	if (!_switchButton.selected && button != _switchButton) {
-		[self displayHUDTitle:nil message:@"设备已关机，不能进行其他操作" duration:1];
+		[self displayHUDTitle:nil message:@"设备已关机，不能进行其他操作" duration:3];
 		return;
 	}
 	
 	if (_childLockButton.selected && button != _childLockButton) {
-		[self displayHUDTitle:nil message:NSLocalizedString(@"childMessage", nil) duration:1];
+		[self displayHUDTitle:nil message:NSLocalizedString(@"childMessage", nil) duration:3];
 		return;
 	}
 	

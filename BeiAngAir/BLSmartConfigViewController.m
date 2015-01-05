@@ -232,12 +232,12 @@
 
 - (void)startTransmitting:(int)version {
 	if (!_ssidTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写WIFI名称" duration:1];
+		[self displayHUDTitle:nil message:@"请填写WIFI名称" duration:3];
 		return;
 	}
 	
 	if (!_passwordTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写密码" duration:1];
+		[self displayHUDTitle:nil message:@"请填写密码" duration:3];
 		return;
 	}
 	

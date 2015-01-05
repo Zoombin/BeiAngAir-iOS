@@ -125,12 +125,12 @@
 //	_passwordTextField.text = @"123456";
 //#endif
 	if (!_accountTextField.text.length) {
-		[self displayHUDTitle:@"错误" message:@"账号不能为空" duration:1];
+		[self displayHUDTitle:@"错误" message:@"账号不能为空" duration:3];
 		return;
 	}
 	
 	if (!_passwordTextField.text.length) {
-		[self displayHUDTitle:@"错误" message:@"密码不能为空" duration:1];
+		[self displayHUDTitle:@"错误" message:@"密码不能为空" duration:3];
 		return;
 	}
 	

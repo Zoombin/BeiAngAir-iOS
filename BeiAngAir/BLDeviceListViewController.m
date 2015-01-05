@@ -193,7 +193,7 @@
 		controller.device = device;
 		[self.navigationController pushViewController:controller animated:YES];
 	} else {
-		[self displayHUDTitle:nil message:NSLocalizedString(@"设备不在线", nil) duration:1];
+		[self displayHUDTitle:nil message:NSLocalizedString(@"设备不在线", nil) duration:3];
 	}
 }
 

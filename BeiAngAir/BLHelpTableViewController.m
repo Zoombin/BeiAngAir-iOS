@@ -85,7 +85,7 @@ static NSString * const sectionHeaderTitleSystem = @"系统";
 	[[BLAPIClient shared] logoutWithBlock:^(NSError *error) {
 		[self hideHUD:YES];
 		if (!error) {
-			[self displayHUDTitle:nil message:@"注销成功" duration:1];
+			[self displayHUDTitle:nil message:@"注销成功" duration:3];
 			[self performSelector:@selector(dismiss) withObject:nil afterDelay:1];
 		} else {
 			[self displayHUDTitle:nil message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER]];

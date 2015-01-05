@@ -87,7 +87,7 @@
 		if (!error) {
 			[self hideHUD:YES];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:1];
+			[self displayHUDTitle:nil message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:3];
 		}
 	}];
 }
@@ -98,12 +98,12 @@
 
 - (void)submit {
 	if (!_accountTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写正确的手机号" duration:1];
+		[self displayHUDTitle:nil message:@"请填写正确的手机号" duration:3];
 		return;
 	}
 	
 	if (!_codeTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写验证码" duration:1];
+		[self displayHUDTitle:nil message:@"请填写验证码" duration:3];
 		return;
 	}
 	

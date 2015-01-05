@@ -118,30 +118,35 @@
 }
 
 - (void)signup {
+	if (_accountTextField.text.length < 6) {
+		[self displayHUDTitle:nil message:@"用户名长度不够，请重新输入用户名" duration:3];
+		return;
+	}
+	
 	if (_isMobilePhoneNumber) {
 		if (!_codeTextField.text.length) {
-			[self displayHUDTitle:nil message:@"请输入验证码" duration:1];
+			[self displayHUDTitle:nil message:@"请输入验证码" duration:3];
 			return;
 		}
 	}
 	
 	if (!_accountTextField.text.length) {
-		[self displayHUDTitle:nil message:@"账号不能为空" duration:1];
+		[self displayHUDTitle:nil message:@"账号不能为空" duration:3];
 		return;
 	}
 	
 	if (!_passwordTextField.text.length) {
-		[self displayHUDTitle:nil message:@"密码不能为空" duration:1];
+		[self displayHUDTitle:nil message:@"密码不能为空" duration:3];
 		return;
 	}
 	
 	if (!_passwordConfirmTextField.text.length) {
-		[self displayHUDTitle:nil message:@"密码确认不能为空" duration:1];
+		[self displayHUDTitle:nil message:@"密码确认不能为空" duration:3];
 		return;
 	}
 	
 	if (![_passwordTextField.text isEqualToString:_passwordConfirmTextField.text]) {
-		[self displayHUDTitle:nil message:@"两次密码输入不一致" duration:1];
+		[self displayHUDTitle:nil message:@"两次密码输入不一致" duration:3];
 		return;
 	}
 	

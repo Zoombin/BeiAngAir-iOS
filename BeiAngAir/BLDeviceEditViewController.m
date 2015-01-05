@@ -284,14 +284,14 @@
 			imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
 		}
 		else {
-			[self displayHUDTitle:NSLocalizedString(@"DeviceInfoOpenCameraFailed", nil) message:nil duration:1];
+			[self displayHUDTitle:NSLocalizedString(@"DeviceInfoOpenCameraFailed", nil) message:nil duration:3];
 		}
 		[self presentViewController:imagePicker animated:YES completion:nil];
 	} else if (buttonIndex == 1) {
 		if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
 			imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 		} else {
-			[self displayHUDTitle:NSLocalizedString(@"DeviceInfoOpenCameraFailed", nil) message:nil duration:1];
+			[self displayHUDTitle:NSLocalizedString(@"DeviceInfoOpenCameraFailed", nil) message:nil duration:3];
 		}
 		[self presentViewController:imagePicker animated:YES completion:nil];
 	}
