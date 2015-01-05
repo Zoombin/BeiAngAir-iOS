@@ -21,4 +21,8 @@
 	return self;
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<email:%@, nickname:%@, phone:%@, sex:%@>", _email, _nickname, _phone, _sex];
+}
+
 @end

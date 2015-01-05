@@ -216,7 +216,7 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 		NSDictionary *attributes = nil;
 		NSError *error = [self handleResponse:responseObject];
 		if (!error) {
-			attributes = responseObject[@"data"];
+			attributes = responseObject[@"result"][@"data"];
 		}
 		if (block) block(attributes, error);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
