@@ -18,6 +18,7 @@ extern NSString * const BL_ERROR_MESSAGE_IDENTIFIER;
 - (BOOL)isSessionValid;
 - (NSString *)username;
 - (NSString *)userID;
+- (NSString *)password;
 
 - (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
 - (void)registerAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block;
@@ -26,7 +27,7 @@ extern NSString * const BL_ERROR_MESSAGE_IDENTIFIER;
 - (void)authCodeWithPhone:(NSString *)phone withBlock:(void (^)(NSError *error))block;
 - (void)signinAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block;
 - (void)resetPassword:(NSString *)password phone:(NSString *)phone code:(NSString *)code withBlock:(void (^)(NSError *error))block;
-- (void)bindPhone:(NSString *)phone password:(NSString *)password account:(NSString *)account code:(NSString *)code withBlock:(void (^)(NSError *error))block;
+- (void)bindPhone:(NSString *)phone code:(NSString *)code withBlock:(void (^)(NSError *error))block;
 
 - (void)getBindWithBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 - (void)getDeviceStatus:(NSString *)deviceID withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;

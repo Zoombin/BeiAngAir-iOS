@@ -32,6 +32,7 @@
 	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 30, 10, 30);
 	CGRect frame = CGRectMake(edgeInsets.left, 100, self.view.frame.size.width - edgeInsets.left - edgeInsets.right, 40);
 	
+	_accountTextField = [[UITextField alloc] initWithFrame:frame];
 	_accountTextField.placeholder = @"请输入手机号";
 	_accountTextField.backgroundColor = [UIColor whiteColor];
 	_accountTextField.layer.cornerRadius = 4;
@@ -58,7 +59,9 @@
 	_getCodeButton.showsTouchWhenHighlighted = YES;
 	[self.view addSubview:_getCodeButton];
 	
-	frame.origin.y = CGRectGetMaxY(_getCodeButton.frame) + edgeInsets.bottom;
+	frame.origin.x = CGRectGetMinX(_codeTextField.frame);
+	frame.origin.y = CGRectGetMaxY(_codeTextField.frame) + edgeInsets.bottom;
+	frame.size.width = CGRectGetWidth(_codeTextField.frame);
 	_submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	_submitButton.frame = frame;
 	[_submitButton setTitle:@"确定" forState:UIControlStateNormal];
@@ -89,6 +92,10 @@
 	}];
 }
 
+- (void)back {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)submit {
 	if (!_accountTextField.text.length) {
 		[self displayHUDTitle:nil message:@"请填写正确的手机号" duration:1];
@@ -100,7 +107,15 @@
 		return;
 	}
 	
-	
+	[self displayHUD:@"绑定中..."];
+	[[BLAPIClient shared] bindPhone:_accountTextField.text code:_codeTextField.text withBlock:^(NSError *error) {
+		if (!error) {
+			[self displayHUDTitle:nil message:@"绑定成功" duration:2];
+			[self performSelector:@selector(back) withObject:nil afterDelay:2];
+		} else {
+			[self displayHUDTitle:nil message:error.userInfo[BL_ERROR_MESSAGE_IDENTIFIER] duration:2];
+		}
+	}];
 }
 
 @end

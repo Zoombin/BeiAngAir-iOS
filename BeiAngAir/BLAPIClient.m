@@ -13,6 +13,7 @@ NSString * const BL_ERROR_DOMAIN = @"BL_ERROR_DOMAIN";
 NSString * const BL_ERROR_MESSAGE_IDENTIFIER = @"BL_ERROR_MESSAGE_IDENTIFIER";
 NSString * const EASY_LINK_USER_ID_IDENTIFIER = @"EASY_LINK_USER_ID_IDENTIFIER";
 NSString * const EASY_LINK_USER_NAME_IDENTIFIER = @"EASY_LINK_USER_NAME_IDENTIFIER";
+NSString * const EASY_LINK_PASSWORD_IDENTIFIER = @"EASY_LINK_PASSWORD_IDENTIFIER";
 NSString * const EASY_LINK_TOKEN_IDENTIFIER = @"EASY_LINK_TOKEN_IDENTIFIER";
 NSString * const EASY_LINK_API_KEY = @"34b9a684f1fd61194026d92b7cf2a11c";
 NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
@@ -71,6 +72,13 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	}
 }
 
+- (void)savePassword:(NSString *)password {
+	if (password) {
+		[[NSUserDefaults standardUserDefaults] setObject:password forKey:EASY_LINK_PASSWORD_IDENTIFIER];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
+}
+
 - (NSString *)userID {
 	NSString *userID = [[NSUserDefaults standardUserDefaults] objectForKey:EASY_LINK_USER_ID_IDENTIFIER];
 	return userID ?: @"";
@@ -79,6 +87,11 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 - (NSString *)username {
 	NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:EASY_LINK_USER_NAME_IDENTIFIER];
 	return username ?: @"";
+}
+
+- (NSString *)password {
+	NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:EASY_LINK_PASSWORD_IDENTIFIER];
+	return password ?: @"";
 }
 
 - (void)logout {
@@ -274,6 +287,7 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 		if (!error) {
 			[self saveUserID:result[@"data"][@"user_id"]];
 			[self saveUsername:account];
+			[self savePassword:password];
 			[self saveToken:result[@"data"][@"token"]];
 		}
 		if (block) block(error);
@@ -292,7 +306,6 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 							  };
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"responseObject: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		if (!error) {
 			
@@ -303,9 +316,10 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	}];
 }
 
-- (void)bindPhone:(NSString *)phone password:(NSString *)password account:(NSString *)account code:(NSString *)code withBlock:(void (^)(NSError *error))block {
-	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
+- (void)bindPhone:(NSString *)phone code:(NSString *)code withBlock:(void (^)(NSError *error))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:NO signUserID:YES] mutableCopy];
 	parameters[@"method"] = @"bindUser";
+	NSString *password = [self password];
 	CocoaSecurityResult *md5 = [CocoaSecurity md5:password];
 	parameters[@"params"] = @{@"password" : md5.hexLower,
 							  @"phone" : phone,
