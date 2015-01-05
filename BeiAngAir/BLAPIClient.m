@@ -192,6 +192,25 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	return md5.hexLower;
 }
 
+- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:NO signUserID:YES] mutableCopy];
+	parameters[@"method"] = @"getUserInfo";
+	parameters[@"params"] = @{@"user_id" : [self userID],
+							  @"user_name" : [self username],
+							  };
+	NSString *JSONString = [self dataTOJSONString:parameters];
+	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSDictionary *attributes = nil;
+		NSError *error = [self handleResponse:responseObject];
+		if (!error) {
+			attributes = responseObject[@"data"];
+		}
+		if (block) block(attributes, error);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, error);
+	}];
+}
+
 - (void)registerAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSError *error))block {
 	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
 	parameters[@"method"] = @"register";
@@ -270,6 +289,28 @@ NSString * const EASY_LINK_API_SECRET = @"dc52bdb7601eafb7fa580e000f8d293f";
 	parameters[@"params"] = @{@"newpasswd" : md5.hexLower,
 							  @"phone" : phone,
 							  @"code" : code
+							  };
+	NSString *JSONString = [self dataTOJSONString:parameters];
+	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"responseObject: %@", responseObject);
+		NSError *error = [self handleResponse:responseObject];
+		if (!error) {
+			
+		}
+		if (block) block(error);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(error);
+	}];
+}
+
+- (void)bindPhone:(NSString *)phone password:(NSString *)password account:(NSString *)account code:(NSString *)code withBlock:(void (^)(NSError *error))block {
+	NSMutableDictionary *parameters = [[self addSystemParametersRequestEmpty:YES signUserID:NO] mutableCopy];
+	parameters[@"method"] = @"bindUser";
+	CocoaSecurityResult *md5 = [CocoaSecurity md5:password];
+	parameters[@"params"] = @{@"password" : md5.hexLower,
+							  @"phone" : phone,
+							  @"code" : code,
+							  @"user_name" : [self username]
 							  };
 	NSString *JSONString = [self dataTOJSONString:parameters];
 	[self POST:@"account" parameters:JSONString success:^(AFHTTPRequestOperation *operation, id responseObject) {

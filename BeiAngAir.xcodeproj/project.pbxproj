@@ -35,6 +35,8 @@
 		7700C715196E6A530001561F /* BeiAngReceivedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7700C714196E6A530001561F /* BeiAngReceivedData.m */; };
 		7700C720196E87F90001561F /* NSString+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 7700C71F196E87F90001561F /* NSString+BeiAng.m */; };
 		770FA8611A593CCF005D1B7F /* BLForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */; };
+		770FA8641A5977B8005D1B7F /* BLBindPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 770FA8631A5977B8005D1B7F /* BLBindPhoneViewController.m */; };
+		770FA86A1A5A2197005D1B7F /* BLUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 770FA8691A5A2197005D1B7F /* BLUserInfo.m */; };
 		771F07EB196F897600B41955 /* UIImage+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07EA196F897600B41955 /* UIImage+BeiAng.m */; };
 		771F07EE196F975300B41955 /* UIColor+BeiAng.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07ED196F975300B41955 /* UIColor+BeiAng.m */; };
 		771F07F5196FABCF00B41955 /* Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F07F4196FABCF00B41955 /* Wifi.m */; };
@@ -197,6 +199,10 @@
 		7700C71F196E87F90001561F /* NSString+BeiAng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BeiAng.m"; sourceTree = "<group>"; };
 		770FA85F1A593CCF005D1B7F /* BLForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLForgotPasswordViewController.h; path = BeiAngAir/BLForgotPasswordViewController.h; sourceTree = SOURCE_ROOT; };
 		770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLForgotPasswordViewController.m; path = BeiAngAir/BLForgotPasswordViewController.m; sourceTree = SOURCE_ROOT; };
+		770FA8621A5977B8005D1B7F /* BLBindPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLBindPhoneViewController.h; path = BeiAngAir/BLBindPhoneViewController.h; sourceTree = SOURCE_ROOT; };
+		770FA8631A5977B8005D1B7F /* BLBindPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLBindPhoneViewController.m; path = BeiAngAir/BLBindPhoneViewController.m; sourceTree = SOURCE_ROOT; };
+		770FA8681A5A2197005D1B7F /* BLUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserInfo.h; sourceTree = "<group>"; };
+		770FA8691A5A2197005D1B7F /* BLUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserInfo.m; sourceTree = "<group>"; };
 		771F07E9196F897600B41955 /* UIImage+BeiAng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BeiAng.h"; sourceTree = "<group>"; };
 		771F07EA196F897600B41955 /* UIImage+BeiAng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BeiAng.m"; sourceTree = "<group>"; };
 		771F07EC196F975300B41955 /* UIColor+BeiAng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BeiAng.h"; sourceTree = "<group>"; };
@@ -602,6 +608,8 @@
 		2FAE512518F7BDEB0068893E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				770FA8621A5977B8005D1B7F /* BLBindPhoneViewController.h */,
+				770FA8631A5977B8005D1B7F /* BLBindPhoneViewController.m */,
 				770FA85F1A593CCF005D1B7F /* BLForgotPasswordViewController.h */,
 				770FA8601A593CCF005D1B7F /* BLForgotPasswordViewController.m */,
 				775E219B1A35A88D00CB4ACB /* BLDeviceQRCodeViewController.h */,
@@ -649,6 +657,8 @@
 		7700C703196E67B10001561F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				770FA8681A5A2197005D1B7F /* BLUserInfo.h */,
+				770FA8691A5A2197005D1B7F /* BLUserInfo.m */,
 				771F07F3196FABCF00B41955 /* Wifi.h */,
 				771F07F4196FABCF00B41955 /* Wifi.m */,
 				77F16E441977F87800564AAB /* Weather.h */,
@@ -1094,6 +1104,7 @@
 				771F07F5196FABCF00B41955 /* Wifi.m in Sources */,
 				775EB2361973DF4600E4A0AB /* BLGuideViewController.m in Sources */,
 				777500A01A22E2E7008C566D /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				770FA8641A5977B8005D1B7F /* BLBindPhoneViewController.m in Sources */,
 				BAAE38BC194089EE002C97C8 /* SBJsonStreamParser.m in Sources */,
 				77D385631A36ACB700F6EA46 /* BLHelpTableViewController.m in Sources */,
 				BAB38987193DA4AD00975805 /* MMDrawerBarButtonItem.m in Sources */,
@@ -1110,6 +1121,7 @@
 				77D9E319197FF3F2004AC675 /* BLQRCodeViewController.m in Sources */,
 				77D9E3301980A85A004AC675 /* MBProgressHUD.m in Sources */,
 				BAB3898A193DA4AD00975805 /* MMExampleDrawerVisualStateManager.m in Sources */,
+				770FA86A1A5A2197005D1B7F /* BLUserInfo.m in Sources */,
 				7775006E1A22D998008C566D /* BLSignupViewController.m in Sources */,
 				BAAE38C3194089EE002C97C8 /* SBJsonTokeniser.m in Sources */,
 				7775009D1A22E2E7008C566D /* AFURLResponseSerialization.m in Sources */,

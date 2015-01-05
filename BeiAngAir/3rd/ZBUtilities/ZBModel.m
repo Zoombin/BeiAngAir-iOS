@@ -31,4 +31,18 @@
 	return multi;
 }
 
++ (NSString *)archivePath {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *archivePath = [paths[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.model", NSStringFromClass([self class])]];
+	return archivePath;
+}
+
+- (void)archive {
+	[NSKeyedArchiver archiveRootObject:self toFile:[[self class] archivePath]];
+}
+
++ (instancetype)unarchive {
+	return [NSKeyedUnarchiver unarchiveObjectWithFile:[self archivePath]];
+}
+
 @end

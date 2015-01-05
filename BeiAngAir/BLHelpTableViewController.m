@@ -10,16 +10,24 @@
 #import "UITableViewCell+ZBUtilities.h"
 #import "BLAboutViewController.h"
 #import "BLAPIClient.h"
+#import "BLBindPhoneViewController.h"
+#import "BLUserInfo.h"
 
-const CGFloat heightOfHeader = 20;
-const CGFloat heightOfCell = 45;
-const NSString *sectionHeaderTitle = @"sectionHeaderTitle";
-const NSString *sectionTitle = @"sectionTitle";
-const NSString *sectionSelector = @"sectionSelector";
+static CGFloat const heightOfHeader = 20;
+static CGFloat const heightOfCell = 45;
+static NSString * const sectionHeaderTitle = @"sectionHeaderTitle";
+static NSString * const sectionTitle = @"sectionTitle";
+static NSString * const sectionSelector = @"sectionSelector";
+
+static NSString * const sectionHeaderTitleUser = @"用户";
+static NSString * const sectionHeaderTitleBindPhone = @"绑定手机";
+static NSString * const sectionHeaderTitleAbout = @"关于";
+static NSString * const sectionHeaderTitleSystem = @"系统";
 
 @interface BLHelpTableViewController ()
 
-@property (readwrite) NSArray *data;
+@property (readwrite) NSMutableArray *data;
+@property (readwrite) BLUserInfo *userInfo;
 
 @end
 
@@ -36,10 +44,27 @@ const NSString *sectionSelector = @"sectionSelector";
 	logoImageView.contentMode = UIViewContentModeCenter;
 	self.tableView.tableHeaderView = logoImageView;
 	
-	_data = @[@{sectionHeaderTitle : @"用户", sectionTitle : @"注销登录", sectionSelector : NSStringFromSelector(@selector(signout))},
-			  @{sectionHeaderTitle : @"关于", sectionTitle : @"关于我们", sectionSelector : NSStringFromSelector(@selector(about))},
-			  @{sectionHeaderTitle : @"系统", sectionTitle : @"检查更新", sectionSelector : NSStringFromSelector(@selector(checkVersion))}
-			  ];
+	_data = [NSMutableArray array];
+	
+	if ([[BLAPIClient shared] isSessionValid]) {
+		[_data insertObject:@{sectionHeaderTitle : sectionHeaderTitleUser, sectionTitle : @"注销登录", sectionSelector : NSStringFromSelector(@selector(signout))} atIndex:0];
+		
+		[[BLAPIClient shared] userInfoWithBlock:^(NSDictionary *attributes, NSError *error) {
+			if (!error) {
+				_userInfo = [[BLUserInfo alloc] initWithAttributes:attributes];
+				SEL selector = @selector(bindPhone);
+				if (_userInfo.phone.length) {
+					selector = @selector(doNothing);
+				}
+				[_data insertObject:@{sectionHeaderTitle : sectionHeaderTitleBindPhone, sectionTitle : sectionHeaderTitleBindPhone, sectionSelector : NSStringFromSelector(selector)} atIndex:0];
+				[self.tableView reloadData];
+			}
+			[self.tableView reloadData];
+		}];
+	}
+	[_data addObject:@{sectionHeaderTitle : sectionHeaderTitleAbout, sectionTitle : @"关于我们", sectionSelector : NSStringFromSelector(@selector(about))}];
+	[_data addObject:@{sectionHeaderTitle : sectionHeaderTitleSystem, sectionTitle : @"检查更新", sectionSelector : NSStringFromSelector(@selector(checkVersion))}];
+	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,6 +73,10 @@ const NSString *sectionSelector = @"sectionSelector";
 
 - (void)dismiss {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)doNothing {
+	
 }
 
 - (void)signout {
@@ -67,6 +96,11 @@ const NSString *sectionSelector = @"sectionSelector";
 - (void)about {
 	BLAboutViewController *aboutViewController = [[BLAboutViewController alloc] initWithNibName:nil bundle:nil];
 	[self.navigationController pushViewController:aboutViewController animated:YES];
+}
+
+- (void)bindPhone {
+	BLBindPhoneViewController *bindPhoneViewController = [[BLBindPhoneViewController alloc] initWithNibName:nil bundle:nil];
+	[self.navigationController pushViewController:bindPhoneViewController animated:YES];
 }
 
 - (void)checkVersion {
@@ -105,19 +139,22 @@ const NSString *sectionSelector = @"sectionSelector";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell	*cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
 	NSDictionary *dictionary = _data[indexPath.section];
+	NSString *headerTitle = dictionary[sectionHeaderTitle];
 	cell.textLabel.text = dictionary[sectionTitle];
 
 	NSString *info = nil;
-	if (indexPath.section == 0) {
-		if ([[BLAPIClient shared] isSessionValid]) {
+	if ([headerTitle isEqualToString:sectionHeaderTitleUser]) {
 			info = [NSString stringWithFormat:@"当前用户:%@", [[BLAPIClient shared] username]];
-		} else {
-			info = @"尚未登录";
-		}
-	} else if (indexPath.section == 1) {
+	} else if ([headerTitle isEqualToString:sectionHeaderTitleAbout]) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	} else {
+	} else if ([headerTitle isEqualToString:sectionHeaderTitleSystem]) {
 		info = [NSString stringWithFormat:@"当前版本:%@", [[BLAPIClient shared] appVersion]];
+	} else if ([headerTitle isEqualToString:sectionHeaderTitleBindPhone]) {
+		if (_userInfo.phone.length) {
+			info = _userInfo.phone;
+		} else {
+			info = @"未绑定";
+		}
 	}
 	
 	if (info) {

@@ -13,10 +13,13 @@
 #import "BLDeviceEditViewController.h"
 #import "BLAPIClient.h"
 #import "ELDevice.h"
+#import "BLBindPhoneViewController.h"
+#import "BLUserInfo.h"
 
 @interface BLDeviceListViewController () <UIAlertViewDelegate>
 
 @property (readwrite) NSArray *devices;
+@property (readwrite) UIAlertView *bindPhoneAlertView;
 
 @end
 
@@ -70,6 +73,16 @@
     [btnAddDevice addSubview:addImageView];
     //加入显示
     [self.view addSubview:btnAddDevice];
+	
+	[[BLAPIClient shared] userInfoWithBlock:^(NSDictionary *attributes, NSError *error) {
+		if (!error) {
+			BLUserInfo *userInfo = [[BLUserInfo alloc] initWithAttributes:attributes];
+			if (!userInfo.phone.length) {
+				_bindPhoneAlertView = [[UIAlertView alloc] initWithTitle:@"请绑定手机" message:@"尚未绑定手机，绑定后可用于找回密码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去绑定", nil];
+				[_bindPhoneAlertView show];
+			}
+		}
+	}];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -187,6 +200,13 @@
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (_bindPhoneAlertView == alertView) {
+		if (buttonIndex != alertView.cancelButtonIndex) {
+			BLBindPhoneViewController *bindPhoneViewController = [[BLBindPhoneViewController alloc] initWithNibName:nil bundle:nil];
+			[self.navigationController pushViewController:bindPhoneViewController animated:YES];
+		}
+		return;
+	}
 	if (buttonIndex != alertView.cancelButtonIndex) {
 		ELDevice *device = _devices[alertView.tag];
 		NSLog(@"role: %@", device.role);
